@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'alianza-fiduciaria-front';
+  title = 'Sistema Gestion Alianza Fiduciaria';
 }

@@ -1,4 +1,17 @@
-<h2>Lista clientes</h2>
+<h2>Clients</h2> 
+<button (click)="exportarListadoClientes()" class="btn btn-primary" style="float: right;">Export</button>   
+<form class="row g-3">
+    <div class="col-auto">
+      <label for="inputPassword2" class="visually-hidden">Filter</label>
+      <input type="text" class="form-control" id="valorCampo" placeholder="Filter" [(ngModel)] = "valorCampo" name="sharedKey">
+    </div>
+    <div class="col-auto">
+      <button type="button" class="btn btn-info mb-3" (click)="busquedaAvanzada(valorCampo)">Search</button>
+    </div>
+    <div class="col-auto">
+        <button type="button" class="btn btn-secondary mb-3" (click)="resetFields()">Reset</button>
+      </div>
+</form>
 <table class="table table-striped">
     <thead class="table-dark">
         <tr>
@@ -8,15 +21,24 @@
             <th>Phone</th>
             <th>Data Added</th>
             <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let clientes of client">
+           <td>{{clientes.sharedKey}}</td>
            <td>{{clientes.businessId}}</td>
-           <td>{{clientes.dataAdded}}</td>
            <td>{{clientes.email}}</td>
            <td>{{clientes.phone}}</td>
-           <td>{{clientes.sharedKey}}</td>
-           <td><button class="btn btn-outline-dark"> Modificar</button></td>
+           <td> {{clientes.dataAdded}}</td>
+           <td><button (click)="actualizarCliente(clientes.id)" class="btn btn-outline-info">Modify</button></td>
+           <td><button (click)="detalleCliente(clientes.id)" class="btn btn-outline-dark">Detail</button></td>
+           <td><button (click)="eliminarCliente(clientes.id)" class="btn btn-outline-danger">Delete</button></td>
         </tr>
 </table>
+<!--<script type="text/javascript">
+    function resetFields(){
+        window.location='/';
+    }
+</script>-->

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Client } from '../client';
 import { ClientService } from '../client.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-clientes',
@@ -10,8 +11,9 @@ import { ClientService } from '../client.service';
 export class ListaClientesComponent implements OnInit{
 
 client:Client[];
+valorCampo:string;
 
-  constructor(private clienteService:ClientService) {}
+  constructor(private clienteService:ClientService, private router:Router) {  }
 
   ngOnInit(): void {
     /*this.client = [{
@@ -38,5 +40,43 @@ client:Client[];
       this.client = dato;
     });
   }
+
+  actualizarCliente(id:number){
+    this.router.navigate(['/actualizar-clientes', id]);
+    console.log('actualizar--> '+id)
+  }
+
+  eliminarCliente(id:number){
+    this.clienteService.eliminarCliente(id).subscribe(dato => {      
+      this.obtenerClientes();
+    })
+  }
+
+  detalleCliente(id:number){
+    this.router.navigate(['/detalle-clientes',id]);
+  }
+
+  exportarListadoClientes(){   
+    this.clienteService.exportarListadoClientesCSV().subscribe(dato => {
+      console.log('Exportando listado clientes a CSV');
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(new Blob([dato], {type: 'text/csv'}));
+      link.download = 'Listado_Clientes' + '.csv';
+      link.click();
+    });
+  }
+
+  busquedaAvanzada(valorCampo:string){
+    this.clienteService.busquedaAvanzadaCliente(valorCampo).subscribe(dato => {      
+      this.client = dato;
+      console.log('busqueda avanzada finalizada'+dato);
+    });
+  }
+
+  resetFields(){
+    console.log('limpiando valores')    
+    location.reload(); 
+  }
+ 
 
 }
